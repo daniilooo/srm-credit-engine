@@ -1,0 +1,1 @@
+-- Initial schema will be created in the next development step.
