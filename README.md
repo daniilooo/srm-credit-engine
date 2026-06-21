@@ -44,6 +44,20 @@ A solução será construída como um modular monolith, separando claramente dom
 
 Em construção.
 
+## Git Hook pre-push (local)
+
+Para garantir build, testes e cobertura mínima local antes de um push, execute os seguintes passos locais:
+
+```bash
+chmod +x scripts/pre-push.sh
+cp scripts/pre-push.sh .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+```
+
+O hook executará `./mvnw clean verify` dentro da pasta `backend` e bloqueará o push caso o build falhe, os testes falhem ou a cobertura JaCoCo seja menor que 90%.
+
+Observação: `.git/hooks` não é versionado; o script `scripts/pre-push.sh` é versionado e deve ser instalado manualmente em cada desenvolvedor.
+
 ## Documentação
 
 - `agents/`: personas e workflow dos agentes de IA.
