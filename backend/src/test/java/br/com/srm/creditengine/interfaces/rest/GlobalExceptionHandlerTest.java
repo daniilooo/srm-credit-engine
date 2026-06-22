@@ -1,6 +1,7 @@
 package br.com.srm.creditengine.interfaces.rest;
 
 import br.com.srm.creditengine.interfaces.rest.dto.ErrorResponse;
+import br.com.srm.creditengine.reporting.settlement.InvalidReportPeriodException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,21 @@ class GlobalExceptionHandlerTest {
         assertEquals(500, response.getStatusCode().value());
         assertEquals("Internal Server Error", response.getBody().error());
         assertEquals("An unexpected error occurred", response.getBody().message());
+    }
+
+    @Test
+    void handleInvalidReportPeriod_returns400_withMessage() {
+        InvalidReportPeriodException ex = new InvalidReportPeriodException(
+                "'from' must not be after 'to': from=2026-06-30, to=2026-06-01");
+        MockHttpServletRequest req = requestFor("/api/v1/reports/settlements");
+
+        ResponseEntity<ErrorResponse> response = handler.handleInvalidReportPeriod(ex, req);
+
+        assertEquals(400, response.getStatusCode().value());
+        assertEquals("Bad Request", response.getBody().error());
+        assertEquals("'from' must not be after 'to': from=2026-06-30, to=2026-06-01", response.getBody().message());
+        assertEquals("/api/v1/reports/settlements", response.getBody().path());
+        assertNotNull(response.getBody().timestamp());
     }
 
     @Test

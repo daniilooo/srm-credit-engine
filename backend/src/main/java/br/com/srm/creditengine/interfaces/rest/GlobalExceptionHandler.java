@@ -6,6 +6,7 @@ import br.com.srm.creditengine.domain.pricing.PricingException;
 import br.com.srm.creditengine.domain.receivable.ReceivableNotFoundException;
 import br.com.srm.creditengine.domain.settlement.SettlementNotAllowedException;
 import br.com.srm.creditengine.interfaces.rest.dto.ErrorResponse;
+import br.com.srm.creditengine.reporting.settlement.InvalidReportPeriodException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleSettlementNotAllowed(
             SettlementNotAllowedException ex, HttpServletRequest req) {
         return build(HttpStatus.CONFLICT, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(InvalidReportPeriodException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidReportPeriod(
+            InvalidReportPeriodException ex, HttpServletRequest req) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), req);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
