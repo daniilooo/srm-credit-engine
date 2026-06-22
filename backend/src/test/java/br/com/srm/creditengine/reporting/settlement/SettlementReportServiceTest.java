@@ -1,6 +1,8 @@
 package br.com.srm.creditengine.reporting.settlement;
 
 import br.com.srm.creditengine.domain.currency.CurrencyCode;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,13 +26,13 @@ class SettlementReportServiceTest {
     private SettlementReportRepository repository;
 
     private SettlementReportService service;
-
+    private static final BusinessMetrics METRICS = new BusinessMetrics(new SimpleMeterRegistry());
     private static final SettlementReportPage EMPTY_PAGE =
             new SettlementReportPage(List.of(), 0, 20, 0L, 0);
 
     @BeforeEach
     void setUp() {
-        service = new SettlementReportService(repository);
+        service = new SettlementReportService(repository, METRICS);
     }
 
     @Test

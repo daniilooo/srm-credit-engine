@@ -19,9 +19,11 @@ import br.com.srm.creditengine.domain.settlement.Settlement;
 import br.com.srm.creditengine.domain.settlement.SettlementNotAllowedException;
 import br.com.srm.creditengine.domain.settlement.SettlementStatus;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.CurrencyRepository;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.OutboxEventRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.ReceivableRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.SettlementRepository;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,13 +52,14 @@ class SettleReceivableUseCaseTest {
     @Mock private PricingSimulationService pricingSimulationService;
     @Mock private ExchangeRateLookupService exchangeRateLookupService;
 
+    private static final BusinessMetrics METRICS = new BusinessMetrics(new SimpleMeterRegistry());
     private SettleReceivableUseCase useCase;
 
     @BeforeEach
     void setUp() {
         useCase = new SettleReceivableUseCase(
                 receivableRepository, currencyRepository, settlementRepository,
-                outboxEventRepository, pricingSimulationService, exchangeRateLookupService);
+                outboxEventRepository, pricingSimulationService, exchangeRateLookupService, METRICS);
     }
 
     // ── happy path ────────────────────────────────────────────────────────────

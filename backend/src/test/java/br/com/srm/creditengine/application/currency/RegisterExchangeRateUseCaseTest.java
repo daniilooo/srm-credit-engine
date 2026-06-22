@@ -3,8 +3,10 @@ package br.com.srm.creditengine.application.currency;
 import br.com.srm.creditengine.domain.currency.Currency;
 import br.com.srm.creditengine.domain.currency.CurrencyCode;
 import br.com.srm.creditengine.domain.currency.CurrencyConversionException;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.CurrencyRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.ExchangeRateRepository;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,10 +31,11 @@ class RegisterExchangeRateUseCaseTest {
     private ExchangeRateRepository exchangeRateRepository;
 
     private RegisterExchangeRateUseCase useCase;
+    private static final BusinessMetrics METRICS = new BusinessMetrics(new SimpleMeterRegistry());
 
     @BeforeEach
     void setUp() {
-        useCase = new RegisterExchangeRateUseCase(currencyRepository, exchangeRateRepository);
+        useCase = new RegisterExchangeRateUseCase(currencyRepository, exchangeRateRepository, METRICS);
     }
 
     @Test
