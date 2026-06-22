@@ -52,7 +52,7 @@ Exemplo real: para a etapa de observabilidade (v0.10.0), o Orquestrador identifi
 
 ## Fluxo de Trabalho por Etapa
 
-Em cada uma das 10 milestones de implementação, o fluxo foi:
+Em cada uma das 11 milestones de implementação, o fluxo foi:
 
 ```
 1.  Definição da milestone (escopo, critérios de aceite, restrições)
@@ -86,6 +86,7 @@ Este fluxo garantiu que **nenhuma decisão técnica relevante foi tomada de form
 | v0.9.0 | Multi-stage Dockerfiles, Docker Secrets, Nginx proxy reverso |
 | v0.10.0 | BusinessMetrics, Micrometer counters/timers, Prometheus scrape |
 | v0.11.0 | Documentação completa, diagramas C4/ER, ADRs, README, AI_USAGE |
+| v0.12.0 | Design de escala Staff/Principal: EDA, CQRS, Outbox evolution, SLI/SLO, roadmap incremental |
 
 ---
 
@@ -99,7 +100,7 @@ Não usar double ou float em valores financeiros.
 Usar BigDecimal para valores monetários, taxas e câmbio.
 ```
 
-Essa regra foi aplicada rigorosamente em todas as 10 milestones, sem exceção.
+Essa regra foi aplicada rigorosamente em todas as 11 milestones, sem exceção.
 
 ---
 
