@@ -44,7 +44,7 @@ Recebível (valor de face, vencimento, tipo)
 | Dockerização completa com secrets | ✅ Implementado |
 | Observabilidade com Prometheus (8 métricas de negócio) | ✅ Implementado |
 | OpenAPI/Swagger | ✅ Implementado |
-| GitHub Actions CI/CD | ❌ Não implementado |
+| GitHub Actions CI/CD (4 jobs: backend, frontend, docker, security) | ✅ Implementado (v0.14.0) |
 | Grafana | ❌ Não implementado |
 | Dispatcher do Outbox | ❌ Não implementado (eventos persistidos, publicação não) |
 
@@ -135,7 +135,7 @@ srm-credit-engine/
 │   └── prometheus/
 │       └── prometheus.yml
 ├── docs/                           # Documentação completa
-│   ├── adr/                        # Architecture Decision Records (0001–0008)
+│   ├── adr/                        # Architecture Decision Records (0001–0011)
 │   ├── architecture/               # Visão geral arquitetural
 │   ├── c4/                         # Diagramas C4 (Mermaid)
 │   ├── er/                         # Diagrama ER (Mermaid)
@@ -143,6 +143,11 @@ srm-credit-engine/
 │   ├── docker/                     # Guia Docker Compose
 │   ├── observability/              # Métricas e Prometheus
 │   ├── git/                        # Estratégia de branching
+│   ├── ci-cd/                      # Pipeline GitHub Actions
+│   ├── crisis-management/          # Incident response, postmortem e Git recovery
+│   ├── eda/                        # Event-Driven Architecture (proposta futura)
+│   ├── scale/                      # Design de escala (proposta futura)
+│   ├── release/                    # Release notes por versão
 │   └── validation/                 # Checklist final
 ├── agents/                         # Personas dos agentes de IA
 ├── prompts/                        # Prompts por milestone
@@ -260,7 +265,7 @@ cd backend
 ```
 
 Isso executa:
-- Todos os 106 testes unitários
+- Todos os 105 testes unitários
 - Relatório JaCoCo em `target/site/jacoco/`
 - Verificação de cobertura mínima (90% de linhas) — falha o build se não atingida
 
@@ -282,7 +287,7 @@ O projeto possui pipeline de integração contínua com **GitHub Actions**, exec
 
 | Job | O que valida |
 |---|---|
-| `backend` | Java 21 + `./mvnw -B clean verify` (build + 106 testes + JaCoCo ≥ 90%) |
+| `backend` | Java 21 + `./mvnw -B clean verify` (build + 105 testes + JaCoCo ≥ 90%) |
 | `frontend` | `npm ci` + `npm run build` + testes Karma/ChromeHeadless |
 | `docker` | `docker compose config` + `docker compose build` |
 | `security-checks` | `git ls-files` para detectar secrets versionados |
@@ -394,6 +399,8 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 | `v0.11.0-documentation-system-design` | Documentação e system design |
 | `v0.12.0-scale-and-eda-design` | Design de escalabilidade e EDA (Staff/Principal) |
 | `v0.13.0-crisis-management-git-simulation` | Gestão de crise, incident response e Git recovery |
+| `v0.14.0-ci-cd-pipeline` | Pipeline CI com GitHub Actions (4 jobs independentes) |
+| `v1.0.0` | Release final — revisão, limpeza e fechamento do desafio técnico |
 
 ---
 
@@ -420,7 +427,6 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 - **Apenas 2 tipos de recebível:** DUPLICATA e CHEQUE_PRE_DATADO
 - **Taxas manuais:** sem integração com API externa de câmbio
 - **Dispatcher do Outbox não implementado:** eventos são persistidos mas não publicados
-- **Sem GitHub Actions:** CI/CD não configurado
 - **Sem Grafana:** Prometheus configurado; visualização não
 - **Sem Resilience4j:** planejado, não implementado
 - **Sem Testcontainers:** testes usam mocks; banco real não coberto por testes de integração
@@ -431,7 +437,7 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 
 1. Implementar dispatcher do Outbox (worker ou CDC com Debezium)
 2. Adicionar autenticação (JWT ou OAuth2/OIDC)
-3. Configurar GitHub Actions CI/CD (build + testes + push de imagem)
+3. Publicar imagens Docker em registry (CI de build já implementado — próximo passo é push + deploy)
 4. Adicionar Grafana com dashboard de negócio
 5. Implementar Testcontainers para testes de integração com banco real
 6. Integrar com API externa de cotação (ex: Open Exchange Rates)
@@ -485,8 +491,10 @@ Documentação arquitetural de como o SRM Credit Engine evoluiria para alto volu
 | [`docs/observability/observability-at-scale.md`](docs/observability/observability-at-scale.md) | Observabilidade em escala (proposta futura) |
 | [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md) | Branches, commits e tags |
 | [`docs/validation/final-checklist.md`](docs/validation/final-checklist.md) | Checklist de critérios de aceite |
+| [`docs/ci-cd/github-actions.md`](docs/ci-cd/github-actions.md) | Pipeline GitHub Actions — jobs, comandos e como interpretar falhas |
 | [`docs/crisis-management/`](docs/crisis-management/) | Playbook, simulação Git, postmortem e hotfix |
-| [`docs/adr/`](docs/adr/) | ADRs 0001–0010 (todas as decisões arquiteturais) |
+| [`docs/adr/`](docs/adr/) | ADRs 0001–0011 (todas as decisões arquiteturais) |
+| [`docs/release/v1.0.0-final-release-notes.md`](docs/release/v1.0.0-final-release-notes.md) | Release notes da v1.0.0 — histórico completo de milestones |
 | [`AI_USAGE.md`](AI_USAGE.md) | Uso de IA com análise crítica |
 
 ---
