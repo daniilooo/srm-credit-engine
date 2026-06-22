@@ -276,6 +276,23 @@ chmod +x .git/hooks/pre-push
 
 ---
 
+## CI/CD — GitHub Actions
+
+O projeto possui pipeline de integração contínua com **GitHub Actions**, executando automaticamente em todo PR e push para `main`.
+
+| Job | O que valida |
+|---|---|
+| `backend` | Java 21 + `./mvnw -B clean verify` (build + 106 testes + JaCoCo ≥ 90%) |
+| `frontend` | `npm ci` + `npm run build` + testes Karma/ChromeHeadless |
+| `docker` | `docker compose config` + `docker compose build` |
+| `security-checks` | `git ls-files` para detectar secrets versionados |
+
+Arquivo do workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+
+Documentação completa: [`docs/ci-cd/github-actions.md`](docs/ci-cd/github-actions.md)
+
+---
+
 ## Endpoints da API
 
 | Método | Endpoint | Descrição |
