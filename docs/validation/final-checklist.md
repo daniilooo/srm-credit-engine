@@ -172,6 +172,29 @@ Checklist verificável da entrega completa do projeto.
 
 ---
 
+## CI/CD Pipeline — GitHub Actions (v0.14.0)
+
+- [x] `.github/workflows/ci.yml` criado com nome `SRM Credit Engine CI`
+- [x] Triggers: `pull_request` e `push` para `main`
+- [x] Job `backend`: Java 21 (Temurin), cache Maven, `./mvnw -B clean verify`
+- [x] Job `frontend`: Node 22, cache npm, `npm ci`, `npm run build`, testes ChromeHeadless
+- [x] Job `docker`: dummy secrets criados no runner, `docker compose config`, `docker compose build`
+- [x] Job `security-checks`: `git ls-files` com lógica corrigida para detectar secrets versionados
+- [x] 4 jobs independentes e paralelos
+- [x] Sem deploy real
+- [x] Sem publicação de imagens Docker
+- [x] Sem secrets reais no workflow
+- [x] Dummy secrets (`ci_user`, `ci_password`) criados apenas no runner — não commitados
+- [x] `docs/ci-cd/github-actions.md` criado com documentação completa
+- [x] `docs/adr/0011-ci-cd-pipeline.md` criado
+- [x] `README.md` atualizado com seção CI/CD e tabela de jobs
+- [x] `AI_USAGE.md` atualizado com milestone v0.14.0
+- [x] Nenhum código de produção alterado
+- [x] Nenhum segredo real incluído
+- [x] Documentação em português do Brasil
+
+---
+
 ## Segurança e Boas Práticas
 
 - [x] Nenhuma credencial versionada
@@ -186,7 +209,7 @@ Checklist verificável da entrega completa do projeto.
 
 | Item | Status | Observação |
 |---|---|---|
-| GitHub Actions CI/CD | Não implementado | Planejado, fora do escopo do desafio |
+| GitHub Actions CI/CD | Implementado (v0.14.0) | 4 jobs: backend, frontend, docker, security-checks |
 | Grafana | Não implementado | Prometheus configurado; Grafana não |
 | Resilience4j | Não implementado | Estava no escopo original, não executado |
 | Testcontainers | Não implementado | Testes usam mocks; banco real não coberto por testes |
