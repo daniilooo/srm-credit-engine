@@ -52,7 +52,7 @@ Exemplo real: para a etapa de observabilidade (v0.10.0), o Orquestrador identifi
 
 ## Fluxo de Trabalho por Etapa
 
-Em cada uma das 13 milestones de implementação, o fluxo foi:
+Em cada uma das 14 milestones de implementação, o fluxo foi:
 
 ```
 1.  Definição da milestone (escopo, critérios de aceite, restrições)
@@ -89,6 +89,7 @@ Este fluxo garantiu que **nenhuma decisão técnica relevante foi tomada de form
 | v0.12.0 | Design de escala Staff/Principal: EDA, CQRS, Outbox evolution, SLI/SLO, roadmap incremental |
 | v0.13.0 | Gestão de crise: incident response playbook, git revert simulation, hotfix, postmortem template |
 | v0.14.0 | Pipeline CI com GitHub Actions: 4 jobs independentes (backend, frontend, docker, security-checks), documentação do pipeline, ADR 0011 |
+| v1.0.0 | Release final: revisão e limpeza do README, release notes, ADR 0012 de fechamento de escopo, checklist final |
 
 ---
 
@@ -102,7 +103,7 @@ Não usar double ou float em valores financeiros.
 Usar BigDecimal para valores monetários, taxas e câmbio.
 ```
 
-Essa regra foi aplicada rigorosamente em todas as 13 milestones, sem exceção.
+Essa regra foi aplicada rigorosamente em todas as 14 milestones, sem exceção.
 
 ---
 
@@ -168,7 +169,7 @@ Todas as decisões abaixo foram **revisadas e validadas pelo desenvolvedor** sem
 
 ## Valor Agregado pela IA
 
-- **Velocidade de implementação:** A IA permitiu implementar 13 milestones em prazo curto, mantendo qualidade arquitetural
+- **Velocidade de implementação:** A IA permitiu implementar 14 milestones em prazo curto, mantendo qualidade arquitetural
 - **Consistência:** Regras definidas no `CLAUDE.md` foram aplicadas uniformemente em todas as etapas
 - **Documentação:** A geração de ADRs, diagramas Mermaid e documentação técnica seria muito mais lenta manualmente
 - **Revisão crítica:** A IA identificou proativamente riscos como dupla liquidação, arredondamento cambial e isolamento do domínio
@@ -202,7 +203,7 @@ Todas as decisões abaixo foram **revisadas e validadas pelo desenvolvedor** sem
 A IA foi uma ferramenta de **amplificação da capacidade do desenvolvedor**, não um substituto para julgamento técnico. Os maiores ganhos foram em:
 
 1. Velocidade de geração de código boilerplate e infraestrutura
-2. Coerência na aplicação de padrões (SOLID, Strategy, ACID) ao longo das 13 milestones
+2. Coerência na aplicação de padrões (SOLID, Strategy, ACID) ao longo das 14 milestones
 3. Geração de documentação técnica estruturada
 
 Os maiores riscos realizados foram em versões de dependências incompatíveis, comportamentos específicos de frameworks e APIs que mudaram entre versões — áreas onde a IA trabalha com dados de treinamento que podem estar desatualizados.

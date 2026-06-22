@@ -195,6 +195,28 @@ Checklist verificável da entrega completa do projeto.
 
 ---
 
+## Release Final — v1.0.0
+
+- [x] README.md sem referências desatualizadas a "CI/CD não implementado"
+- [x] Tabela de features: GitHub Actions marcado como `✅ Implementado (v0.14.0)`
+- [x] Tabela de milestones completa — v0.2.0 até v1.0.0 (14 entradas)
+- [x] Árvore de documentação no README inclui `ci-cd/`, `crisis-management/`, `eda/`, `scale/`, `release/`
+- [x] ADRs referenciados como `0001–0011` na árvore e `0001–0012` na tabela completa
+- [x] Limitações honestas — sem mascarar o que não foi implementado
+- [x] Próximos passos atualizados (CI existe; evolução é push/deploy de imagem)
+- [x] `docs/release/v1.0.0-final-release-notes.md` criado com histórico completo
+- [x] `docs/adr/0012-final-release.md` criado com status Aceito
+- [x] `AI_USAGE.md` atualizado com v1.0.0 (14 milestones em todos os contadores)
+- [x] `./mvnw -B clean verify` — 105 testes, BUILD SUCCESS, JaCoCo 96,9%
+- [x] `git ls-files` — nenhum segredo rastreado
+- [x] `docker compose config` — OK
+- [x] Nenhuma feature funcional nova criada
+- [x] Nenhum código de produção alterado
+- [x] Nenhum segredo real incluído
+- [x] Documentação em português do Brasil
+
+---
+
 ## Segurança e Boas Práticas
 
 - [x] Nenhuma credencial versionada
