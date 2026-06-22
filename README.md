@@ -376,6 +376,7 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 | `v0.10.0-backend-observability` | Micrometer + Prometheus |
 | `v0.11.0-documentation-system-design` | Documentação e system design |
 | `v0.12.0-scale-and-eda-design` | Design de escalabilidade e EDA (Staff/Principal) |
+| `v0.13.0-crisis-management-git-simulation` | Gestão de crise, incident response e Git recovery |
 
 ---
 
@@ -422,6 +423,21 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 
 ---
 
+## Gestão de Crise e Simulação Git
+
+Documentação de incident response, git revert, hotfix, cherry-pick e postmortem — demonstração de maturidade operacional Sênior/Staff.
+
+| Documento | Descrição |
+|---|---|
+| [`docs/crisis-management/incident-response-playbook.md`](docs/crisis-management/incident-response-playbook.md) | Playbook completo de resposta a incidentes |
+| [`docs/crisis-management/git-revert-simulation.md`](docs/crisis-management/git-revert-simulation.md) | Simulação de `git revert` com timeline do incidente |
+| [`docs/crisis-management/hotfix-and-cherry-pick.md`](docs/crisis-management/hotfix-and-cherry-pick.md) | Estratégias de hotfix e cherry-pick com decisão |
+| [`docs/crisis-management/postmortem-template.md`](docs/crisis-management/postmortem-template.md) | Template reutilizável de postmortem |
+| [`docs/crisis-management/example-postmortem-observability-metric.md`](docs/crisis-management/example-postmortem-observability-metric.md) | Exemplo preenchido — incidente de métrica Prometheus |
+| [`docs/adr/0010-crisis-management-git-strategy.md`](docs/adr/0010-crisis-management-git-strategy.md) | ADR 0010 — estratégia Git para emergências |
+
+---
+
 ## Design de Escalabilidade e EDA
 
 Documentação arquitetural de como o SRM Credit Engine evoluiria para alto volume e arquitetura orientada a eventos — demonstração de maturidade Staff/Principal. **Proposta futura — não implementado.**
@@ -452,7 +468,8 @@ Documentação arquitetural de como o SRM Credit Engine evoluiria para alto volu
 | [`docs/observability/observability-at-scale.md`](docs/observability/observability-at-scale.md) | Observabilidade em escala (proposta futura) |
 | [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md) | Branches, commits e tags |
 | [`docs/validation/final-checklist.md`](docs/validation/final-checklist.md) | Checklist de critérios de aceite |
-| [`docs/adr/`](docs/adr/) | ADRs 0001–0009 (todas as decisões arquiteturais) |
+| [`docs/crisis-management/`](docs/crisis-management/) | Playbook, simulação Git, postmortem e hotfix |
+| [`docs/adr/`](docs/adr/) | ADRs 0001–0010 (todas as decisões arquiteturais) |
 | [`AI_USAGE.md`](AI_USAGE.md) | Uso de IA com análise crítica |
 
 ---

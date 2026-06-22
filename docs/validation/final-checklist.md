@@ -148,6 +148,30 @@ Checklist verificável da entrega completa do projeto.
 
 ---
 
+## Gestão de Crise e Simulação Git (v0.13.0)
+
+> Documentação de incident response e estratégia Git de emergência.
+
+- [x] `docs/crisis-management/incident-response-playbook.md` criado com severidades, papéis, decisão e checklist
+- [x] `docs/crisis-management/git-revert-simulation.md` criado com cenário, comandos seguros e timeline Mermaid
+- [x] `docs/crisis-management/hotfix-and-cherry-pick.md` criado com tabela comparativa e fluxos completos
+- [x] `docs/crisis-management/postmortem-template.md` criado com todos os campos obrigatórios
+- [x] `docs/crisis-management/example-postmortem-observability-metric.md` criado com exemplo preenchido
+- [x] `docs/adr/0010-crisis-management-git-strategy.md` criado
+- [x] `README.md` atualizado com seção de gestão de crise e links
+- [x] `AI_USAGE.md` atualizado com milestone v0.13.0
+- [x] Todos os documentos em português do Brasil
+- [x] Documentos de simulação identificados como **SIMULAÇÃO DOCUMENTAL**
+- [x] Diferença entre rollback de deploy, git revert, hotfix e cherry-pick documentada
+- [x] `git reset --hard` explicitamente proibido para branches compartilhadas
+- [x] Force push em main explicitamente proibido
+- [x] Diagramas Mermaid coerentes (gitGraph, timeline, flowchart)
+- [x] Nenhum comando Git destrutivo executado no repositório real
+- [x] Nenhum código de produção alterado
+- [x] Nenhum segredo real incluído
+
+---
+
 ## Segurança e Boas Práticas
 
 - [x] Nenhuma credencial versionada
