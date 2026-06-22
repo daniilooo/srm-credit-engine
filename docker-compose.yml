@@ -1,20 +1,57 @@
+name: srm-credit-engine
+
 services:
   postgres:
     image: postgres:16-alpine
     container_name: srm-credit-engine-postgres
+    secrets:
+      - db_user
+      - db_password
     environment:
-      POSTGRES_DB: srm_credit_engine
-      POSTGRES_USER: srm
-      POSTGRES_PASSWORD: srm
+      POSTGRES_DB: ${POSTGRES_DB:-srm_credit_engine}
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U srm -d srm_credit_engine"]
+      test: ["CMD-SHELL", "pg_isready -U $(cat /run/secrets/db_user) -d ${POSTGRES_DB:-srm_credit_engine}"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: srm-credit-engine-backend
+    secrets:
+      - db_user
+      - db_password
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-srm_credit_engine}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: srm-credit-engine-frontend
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"
+    depends_on:
+      - backend
+
+secrets:
+  db_user:
+    file: ./backend/secrets/db_user
+  db_password:
+    file: ./backend/secrets/db_password
 
 volumes:
   postgres-data:
