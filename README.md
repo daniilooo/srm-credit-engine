@@ -375,6 +375,7 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 | `v0.9.0-full-docker-compose` | Dockerização completa com secrets |
 | `v0.10.0-backend-observability` | Micrometer + Prometheus |
 | `v0.11.0-documentation-system-design` | Documentação e system design |
+| `v0.12.0-scale-and-eda-design` | Design de escalabilidade e EDA (Staff/Principal) |
 
 ---
 
@@ -421,6 +422,22 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 
 ---
 
+## Design de Escalabilidade e EDA
+
+Documentação arquitetural de como o SRM Credit Engine evoluiria para alto volume e arquitetura orientada a eventos — demonstração de maturidade Staff/Principal. **Proposta futura — não implementado.**
+
+| Documento | Descrição |
+|---|---|
+| [`docs/scale/one-million-transactions.md`](docs/scale/one-million-transactions.md) | Design para 1 milhão de transações/minuto |
+| [`docs/eda/event-driven-evolution.md`](docs/eda/event-driven-evolution.md) | Evolução para Event-Driven Architecture |
+| [`docs/eda/outbox-pattern-evolution.md`](docs/eda/outbox-pattern-evolution.md) | Outbox Publisher, fluxo transacional e retention |
+| [`docs/eda/idempotency-and-retries.md`](docs/eda/idempotency-and-retries.md) | Idempotência, DLQ e estratégia de retry |
+| [`docs/eda/cqrs-reporting-evolution.md`](docs/eda/cqrs-reporting-evolution.md) | CQRS, projeções e read model para relatórios |
+| [`docs/observability/observability-at-scale.md`](docs/observability/observability-at-scale.md) | SLI/SLO, tracing distribuído e alertas em escala |
+| [`docs/adr/0009-scale-and-eda-design.md`](docs/adr/0009-scale-and-eda-design.md) | ADR 0009 — justificativa da etapa documental |
+
+---
+
 ## Documentação Completa
 
 | Documento | Descrição |
@@ -431,10 +448,11 @@ Guia completo: [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md
 | [`docs/er/er-diagram.md`](docs/er/er-diagram.md) | Diagrama ER com as 7 tabelas |
 | [`docs/api/endpoints.md`](docs/api/endpoints.md) | Todos os endpoints com exemplos |
 | [`docs/docker/running-with-docker.md`](docs/docker/running-with-docker.md) | Setup Docker completo |
-| [`docs/observability/backend-observability.md`](docs/observability/backend-observability.md) | Métricas e Prometheus |
+| [`docs/observability/backend-observability.md`](docs/observability/backend-observability.md) | Métricas e Prometheus (implementado) |
+| [`docs/observability/observability-at-scale.md`](docs/observability/observability-at-scale.md) | Observabilidade em escala (proposta futura) |
 | [`docs/git/branching-strategy.md`](docs/git/branching-strategy.md) | Branches, commits e tags |
 | [`docs/validation/final-checklist.md`](docs/validation/final-checklist.md) | Checklist de critérios de aceite |
-| [`docs/adr/`](docs/adr/) | ADRs 0001–0008 (todas as decisões arquiteturais) |
+| [`docs/adr/`](docs/adr/) | ADRs 0001–0009 (todas as decisões arquiteturais) |
 | [`AI_USAGE.md`](AI_USAGE.md) | Uso de IA com análise crítica |
 
 ---

@@ -116,7 +116,7 @@ Checklist verificável da entrega completa do projeto.
 
 - [x] `README.md` completo com todas as seções
 - [x] `AI_USAGE.md` com análise crítica real
-- [x] ADRs 0001–0008
+- [x] ADRs 0001–0009
 - [x] Diagrama C4 Contexto (Mermaid)
 - [x] Diagrama C4 Container (Mermaid)
 - [x] Diagrama ER com as 7 tabelas (Mermaid)
@@ -125,6 +125,26 @@ Checklist verificável da entrega completa do projeto.
 - [x] Documentação de observabilidade e métricas
 - [x] Estratégia Git e branching
 - [x] Checklist final
+
+---
+
+## Design de Escalabilidade e EDA (v0.12.0)
+
+> Documentação de design evolutivo — proposta futura, não implementado.
+
+- [x] `docs/scale/one-million-transactions.md` criado com premissas, gargalos, estratégias e roadmap
+- [x] `docs/eda/event-driven-evolution.md` criado com eventos candidatos, produtores, consumidores e diagrama Mermaid
+- [x] `docs/eda/outbox-pattern-evolution.md` criado com fluxo da `outbox_events`, publisher futuro e sequenceDiagram
+- [x] `docs/eda/idempotency-and-retries.md` criado com 3 barreiras atuais, idempotency key, backoff e DLQ
+- [x] `docs/eda/cqrs-reporting-evolution.md` criado com CQRS, projections, read model e trade-offs
+- [x] `docs/observability/observability-at-scale.md` criado com SLI/SLO, tracing, logs estruturados e alertas
+- [x] `docs/adr/0009-scale-and-eda-design.md` criado com justificativa da etapa documental e roadmap aprovado
+- [x] `README.md` atualizado com seção de Scale/EDA e links
+- [x] `AI_USAGE.md` atualizado com milestone v0.12.0
+- [x] Todos os documentos em português do Brasil
+- [x] Todos os documentos deixam claro que EDA/CQRS/Kafka são proposta futura
+- [x] Nenhum código de produção alterado
+- [x] Nenhum segredo real incluído
 
 ---
 
