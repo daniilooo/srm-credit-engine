@@ -1,0 +1,52 @@
+<div class="page">
+  <h2>Liquidação de Recebível</h2>
+
+  <form [formGroup]="form" (ngSubmit)="settle()" class="form-card">
+    <div class="form-field">
+      <label for="receivableId">ID do Recebível (UUID) *</label>
+      <input id="receivableId" type="text" formControlName="receivableId"
+             placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+      @if (form.get('receivableId')?.touched && form.get('receivableId')?.hasError('required')) {
+        <span class="field-error">Campo obrigatório</span>
+      }
+      @if (form.get('receivableId')?.touched && form.get('receivableId')?.hasError('pattern')) {
+        <span class="field-error">Formato UUID inválido</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="paymentCurrencyCode">Moeda de Pagamento *</label>
+      <select id="paymentCurrencyCode" formControlName="paymentCurrencyCode">
+        <option value="BRL">BRL</option>
+        <option value="USD">USD</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="baseTaxMonthly">Taxa Base Mensal *</label>
+      <input id="baseTaxMonthly" type="number" formControlName="baseTaxMonthly"
+             min="0.000001" step="0.0001" placeholder="0.0250" />
+      @if (form.get('baseTaxMonthly')?.touched && form.get('baseTaxMonthly')?.hasError('required')) {
+        <span class="field-error">Campo obrigatório</span>
+      }
+      @if (form.get('baseTaxMonthly')?.touched && form.get('baseTaxMonthly')?.hasError('min')) {
+        <span class="field-error">Taxa deve ser maior que zero</span>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading()">
+      {{ loading() ? 'Liquidando...' : 'Liquidar' }}
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+
+  @if (result()) {
+    <div class="alert alert-success">
+      Liquidação realizada com sucesso.<br />
+      <strong>Settlement ID:</strong> {{ result()!.settlementId }}
+    </div>
+  }
+</div>

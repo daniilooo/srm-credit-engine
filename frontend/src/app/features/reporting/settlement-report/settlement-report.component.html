@@ -1,0 +1,95 @@
+<div class="page">
+  <h2>Extrato de Liquidações</h2>
+
+  <form [formGroup]="filtersForm" (ngSubmit)="search(true)" class="filters-card">
+    <div class="filters-row">
+      <div class="form-field">
+        <label for="from">De</label>
+        <input id="from" type="date" formControlName="from" />
+      </div>
+      <div class="form-field">
+        <label for="to">Até</label>
+        <input id="to" type="date" formControlName="to" />
+      </div>
+      <div class="form-field">
+        <label for="assignorId">Cedente (UUID)</label>
+        <input id="assignorId" type="text" formControlName="assignorId"
+               placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+      </div>
+      <div class="form-field">
+        <label for="currency">Moeda</label>
+        <select id="currency" formControlName="currency">
+          <option value="">Todas</option>
+          <option value="BRL">BRL</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="size">Por página</label>
+        <select id="size" formControlName="size">
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" [disabled]="loading()">
+      {{ loading() ? 'Buscando...' : 'Buscar' }}
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+
+  @if (reportPage()) {
+    <div class="table-wrapper">
+      <p class="total-info">
+        {{ reportPage()!.totalElements }} registro(s) — Página {{ currentPage() + 1 }} de {{ totalPages || 1 }}
+      </p>
+
+      @if (reportPage()!.items.length === 0) {
+        <p class="empty-state">Nenhuma liquidação encontrada.</p>
+      } @else {
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Liquidado Em</th>
+              <th>Cedente</th>
+              <th>Tipo</th>
+              <th>Valor de Face</th>
+              <th>Valor Liquidado</th>
+              <th>Moeda Pagto</th>
+              <th>Taxa Câmbio</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of reportPage()!.items; track item.settlementId) {
+              <tr>
+                <td>{{ item.settledAt.slice(0, 19).replace('T', ' ') }}</td>
+                <td>{{ item.assignorName }}</td>
+                <td>{{ item.receivableType }}</td>
+                <td class="number">{{ item.faceValue.toFixed(2) }}</td>
+                <td class="number">{{ item.settledAmount.toFixed(4) }}</td>
+                <td>{{ item.paymentCurrency }}</td>
+                <td class="number">{{ item.exchangeRateValue.toFixed(6) }}</td>
+                <td><span class="badge">{{ item.settlementStatus }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="pagination">
+          <button (click)="goToPage(currentPage() - 1)" [disabled]="!hasPrev || loading()">
+            Anterior
+          </button>
+          <span>Página {{ currentPage() + 1 }} / {{ totalPages }}</span>
+          <button (click)="goToPage(currentPage() + 1)" [disabled]="!hasNext || loading()">
+            Próxima
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
