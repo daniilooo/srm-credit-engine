@@ -2,3 +2,6 @@
 *.iml
 *.iws
 *.ipr
+
+# Local environment file — never commit real values
+.env
