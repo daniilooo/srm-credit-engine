@@ -4,6 +4,7 @@ import br.com.srm.creditengine.domain.currency.Currency;
 import br.com.srm.creditengine.domain.currency.CurrencyCode;
 import br.com.srm.creditengine.domain.currency.CurrencyConversionException;
 import br.com.srm.creditengine.domain.currency.ExchangeRate;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.CurrencyRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.ExchangeRateRepository;
 
@@ -15,11 +16,14 @@ public class RegisterExchangeRateUseCase {
 
     private final CurrencyRepository currencyRepository;
     private final ExchangeRateRepository exchangeRateRepository;
+    private final BusinessMetrics metrics;
 
     public RegisterExchangeRateUseCase(CurrencyRepository currencyRepository,
-                                       ExchangeRateRepository exchangeRateRepository) {
+                                       ExchangeRateRepository exchangeRateRepository,
+                                       BusinessMetrics metrics) {
         this.currencyRepository = Objects.requireNonNull(currencyRepository, "currencyRepository");
         this.exchangeRateRepository = Objects.requireNonNull(exchangeRateRepository, "exchangeRateRepository");
+        this.metrics = Objects.requireNonNull(metrics, "metrics");
     }
 
     public void execute(CurrencyCode baseCode, CurrencyCode quoteCode,
@@ -50,5 +54,6 @@ public class RegisterExchangeRateUseCase {
         exchangeRate.setValidFrom(validFrom);
 
         exchangeRateRepository.save(exchangeRate);
+        metrics.incrementExchangeRatesRegisteredTotal();
     }
 }
