@@ -1,11 +1,16 @@
 package br.com.srm.creditengine.reporting.settlement;
 
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
+import io.micrometer.core.instrument.Timer;
+
 public class SettlementReportService {
 
     private final SettlementReportRepository repository;
+    private final BusinessMetrics metrics;
 
-    public SettlementReportService(SettlementReportRepository repository) {
+    public SettlementReportService(SettlementReportRepository repository, BusinessMetrics metrics) {
         this.repository = repository;
+        this.metrics = metrics;
     }
 
     public SettlementReportPage findSettlements(SettlementReportQuery query) {
@@ -21,6 +26,12 @@ public class SettlementReportService {
             throw new InvalidReportPeriodException(
                     "'from' must not be after 'to': from=" + query.from() + ", to=" + query.to());
         }
-        return repository.findAll(query);
+        metrics.incrementReportsSettlementQueriesTotal();
+        Timer.Sample sample = Timer.start();
+        try {
+            return repository.findAll(query);
+        } finally {
+            sample.stop(metrics.getReportSettlementQueryDuration());
+        }
     }
 }

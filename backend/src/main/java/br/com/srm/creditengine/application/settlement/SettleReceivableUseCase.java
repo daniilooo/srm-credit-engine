@@ -17,9 +17,11 @@ import br.com.srm.creditengine.domain.settlement.SettlementNotAllowedException;
 import br.com.srm.creditengine.domain.settlement.SettlementStatus;
 import br.com.srm.creditengine.domain.currency.Currency;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.CurrencyRepository;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.OutboxEventRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.ReceivableRepository;
 import br.com.srm.creditengine.infrastructure.persistence.jpa.SettlementRepository;
+import io.micrometer.core.instrument.Timer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,7 @@ public class SettleReceivableUseCase {
     private final OutboxEventRepository outboxEventRepository;
     private final PricingSimulationService pricingSimulationService;
     private final ExchangeRateLookupService exchangeRateLookupService;
+    private final BusinessMetrics metrics;
 
     public SettleReceivableUseCase(
             ReceivableRepository receivableRepository,
@@ -49,18 +52,31 @@ public class SettleReceivableUseCase {
             SettlementRepository settlementRepository,
             OutboxEventRepository outboxEventRepository,
             PricingSimulationService pricingSimulationService,
-            ExchangeRateLookupService exchangeRateLookupService) {
+            ExchangeRateLookupService exchangeRateLookupService,
+            BusinessMetrics metrics) {
         this.receivableRepository = Objects.requireNonNull(receivableRepository, "receivableRepository");
         this.currencyRepository = Objects.requireNonNull(currencyRepository, "currencyRepository");
         this.settlementRepository = Objects.requireNonNull(settlementRepository, "settlementRepository");
         this.outboxEventRepository = Objects.requireNonNull(outboxEventRepository, "outboxEventRepository");
         this.pricingSimulationService = Objects.requireNonNull(pricingSimulationService, "pricingSimulationService");
         this.exchangeRateLookupService = Objects.requireNonNull(exchangeRateLookupService, "exchangeRateLookupService");
+        this.metrics = Objects.requireNonNull(metrics, "metrics");
     }
 
     public UUID execute(SettleReceivableCommand command) {
         Objects.requireNonNull(command, "command");
+        Timer.Sample sample = Timer.start();
+        try {
+            return executeInternal(command);
+        } catch (Exception e) {
+            metrics.incrementSettlementsFailedTotal();
+            throw e;
+        } finally {
+            sample.stop(metrics.getSettlementExecutionDuration());
+        }
+    }
 
+    private UUID executeInternal(SettleReceivableCommand command) {
         // 1. Find receivable — ReceivableNotFoundException if absent
         Receivable receivable = receivableRepository.findById(command.receivableId())
                 .orElseThrow(() -> new ReceivableNotFoundException(command.receivableId()));
@@ -161,6 +177,8 @@ public class SettleReceivableUseCase {
 
         outboxEventRepository.save(outboxEvent);
 
-        return saved.getId();
+        UUID result = saved.getId();
+        metrics.incrementSettlementsCreatedTotal();
+        return result;
     }
 }

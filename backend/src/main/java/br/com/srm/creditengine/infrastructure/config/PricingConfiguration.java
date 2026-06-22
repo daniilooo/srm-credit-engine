@@ -4,6 +4,7 @@ import br.com.srm.creditengine.application.pricing.PricingSimulationService;
 import br.com.srm.creditengine.domain.pricing.ReceivablePricingStrategyResolver;
 import br.com.srm.creditengine.domain.pricing.strategy.MercantileDuplicatePricingStrategy;
 import br.com.srm.creditengine.domain.pricing.strategy.PostDatedCheckPricingStrategy;
+import br.com.srm.creditengine.infrastructure.observability.BusinessMetrics;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +21,8 @@ public class PricingConfiguration {
     }
 
     @Bean
-    public PricingSimulationService pricingSimulationService(ReceivablePricingStrategyResolver resolver) {
-        return new PricingSimulationService(resolver);
+    public PricingSimulationService pricingSimulationService(
+            ReceivablePricingStrategyResolver resolver, BusinessMetrics businessMetrics) {
+        return new PricingSimulationService(resolver, businessMetrics);
     }
 }
