@@ -1,0 +1,68 @@
+<div class="page">
+  <h2>Simulação de Pricing</h2>
+
+  <form [formGroup]="form" (ngSubmit)="simulate()" class="form-card">
+    <div class="form-field">
+      <label for="faceValue">Valor de Face *</label>
+      <input id="faceValue" type="number" formControlName="faceValue" min="0.01" step="0.01" placeholder="10000.00" />
+      @if (form.get('faceValue')?.touched && form.get('faceValue')?.hasError('required')) {
+        <span class="field-error">Campo obrigatório</span>
+      }
+      @if (form.get('faceValue')?.touched && form.get('faceValue')?.hasError('min')) {
+        <span class="field-error">Valor deve ser maior que zero</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="dueDate">Data de Vencimento *</label>
+      <input id="dueDate" type="date" formControlName="dueDate" />
+      @if (form.get('dueDate')?.touched && form.get('dueDate')?.hasError('required')) {
+        <span class="field-error">Campo obrigatório</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="receivableType">Tipo de Recebível *</label>
+      <select id="receivableType" formControlName="receivableType">
+        <option value="DUPLICATA">Duplicata</option>
+        <option value="CHEQUE_PRE_DATADO">Cheque Pré-Datado</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="baseTaxMonthly">Taxa Base Mensal *</label>
+      <input id="baseTaxMonthly" type="number" formControlName="baseTaxMonthly"
+             min="0.000001" step="0.0001" placeholder="0.0200" />
+      @if (form.get('baseTaxMonthly')?.touched && form.get('baseTaxMonthly')?.hasError('required')) {
+        <span class="field-error">Campo obrigatório</span>
+      }
+      @if (form.get('baseTaxMonthly')?.touched && form.get('baseTaxMonthly')?.hasError('min')) {
+        <span class="field-error">Taxa deve ser maior que zero</span>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading()">
+      {{ loading() ? 'Simulando...' : 'Simular' }}
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+
+  @if (result()) {
+    <div class="result-card">
+      <h3>Resultado</h3>
+      <dl class="result-list">
+        <dt>Valor Presente</dt>
+        <dd>{{ result()!.presentValue.toFixed(4) }}</dd>
+        <dt>Taxa Aplicada</dt>
+        <dd>{{ result()!.appliedTax.toFixed(6) }}</dd>
+        <dt>Spread Aplicado</dt>
+        <dd>{{ result()!.appliedSpread.toFixed(6) }}</dd>
+        <dt>Prazo (meses)</dt>
+        <dd>{{ result()!.termInMonths }}</dd>
+      </dl>
+    </div>
+  }
+</div>

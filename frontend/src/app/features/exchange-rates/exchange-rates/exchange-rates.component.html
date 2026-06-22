@@ -1,0 +1,103 @@
+<div class="page">
+  <h2>Taxas de Câmbio</h2>
+
+  <section class="form-card">
+    <h3>Registrar Taxa</h3>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="baseCurrency">Moeda Base *</label>
+          <select id="baseCurrency" formControlName="baseCurrency">
+            <option value="BRL">BRL</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="quoteCurrency">Moeda Cotação *</label>
+          <select id="quoteCurrency" formControlName="quoteCurrency">
+            <option value="BRL">BRL</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="rateValue">Taxa *</label>
+        <input id="rateValue" type="number" formControlName="rateValue"
+               min="0.000001" step="0.000001" placeholder="0.180000" />
+        @if (registerForm.get('rateValue')?.touched && registerForm.get('rateValue')?.hasError('required')) {
+          <span class="field-error">Campo obrigatório</span>
+        }
+        @if (registerForm.get('rateValue')?.touched && registerForm.get('rateValue')?.hasError('min')) {
+          <span class="field-error">Taxa deve ser maior que zero</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="validFrom">Válida A Partir De *</label>
+        <input id="validFrom" type="datetime-local" formControlName="validFrom" />
+        @if (registerForm.get('validFrom')?.touched && registerForm.get('validFrom')?.hasError('required')) {
+          <span class="field-error">Campo obrigatório</span>
+        }
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || registerLoading()">
+        {{ registerLoading() ? 'Registrando...' : 'Registrar' }}
+      </button>
+    </form>
+
+    @if (registerError()) {
+      <div class="alert alert-error">{{ registerError() }}</div>
+    }
+    @if (registerResult()) {
+      <div class="alert alert-success">
+        Taxa registrada: {{ registerResult()!.baseCurrencyCode }} → {{ registerResult()!.quoteCurrencyCode }}
+        = {{ registerResult()!.rateValue }}
+      </div>
+    }
+  </section>
+
+  <section class="form-card">
+    <h3>Consultar Taxa Mais Recente</h3>
+    <form [formGroup]="findForm" (ngSubmit)="findLatest()">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="base">Moeda Base *</label>
+          <select id="base" formControlName="base">
+            <option value="BRL">BRL</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="quote">Moeda Cotação *</label>
+          <select id="quote" formControlName="quote">
+            <option value="BRL">BRL</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="findForm.invalid || findLoading()">
+        {{ findLoading() ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </form>
+
+    @if (findError()) {
+      <div class="alert alert-error">{{ findError() }}</div>
+    }
+    @if (findResult()) {
+      <div class="result-card">
+        <dl class="result-list">
+          <dt>Par</dt>
+          <dd>{{ findResult()!.baseCurrencyCode }} → {{ findResult()!.quoteCurrencyCode }}</dd>
+          <dt>Taxa</dt>
+          <dd>{{ findResult()!.rateValue }}</dd>
+          <dt>Válida Desde</dt>
+          <dd>{{ findResult()!.validFrom }}</dd>
+          <dt>Capturada Em</dt>
+          <dd>{{ findResult()!.capturedAt }}</dd>
+        </dl>
+      </div>
+    }
+  </section>
+</div>
